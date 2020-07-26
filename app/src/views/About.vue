@@ -1,5 +1,21 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <button @click.prevent="handClickToBus">点击Bus</button>
   </div>
 </template>
+<script>
+
+export default {
+  name: "About",
+  data() {
+    return {
+      message: "OK",
+    };
+  },
+  methods: {
+    handClickToBus() {
+      EventBus.$emit("msg", this.message);
+    },
+  },
+};
+</script>
