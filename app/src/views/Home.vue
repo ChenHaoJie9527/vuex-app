@@ -15,6 +15,9 @@
       eventBus: {{message || "空"}}
       <div>{{message}}</div>
     </div>
+    <div>title: {{title}}</div>
+    <div>content: {{content}}</div>
+    <button @click.prevent="handClickCommit">提交commit</button>
   </div>
 </template>
 
@@ -40,9 +43,15 @@ export default {
     };
   },
   computed: {
-    message(){
+    message() {
       return this.$store.state.msg;
-    }
+    },
+    title() {
+      return this.$store.state.title;
+    },
+    content() {
+      return this.$store.getters.newTitle;
+    },
   },
   created() {
     // eventbus跨组件通信
@@ -50,7 +59,6 @@ export default {
     //   console.log(data)
     //   this.msg = data;
     // });
-    
   },
   mounted() {
     this.chirderName = this.$refs.myComponents.msg;
@@ -58,6 +66,16 @@ export default {
   methods: {
     eventChirder(val) {
       this.chirderName = val;
+    },
+    async handClickCommit() {
+      // 同步执行，立即更新state状态数据 commit => mutations
+      // this.$store.commit("setTitle", "新的开课吧");
+      // 拿到的还是旧的数据,同步提交不支持异步写法
+      // console.log(this.$store.state.title) 
+
+      // 异步提交 dispatch => actions
+      await this.$store.dispatch('setName', "新的开课吧12312321")
+      console.log(this.$store.state.title);
     },
   },
 };
