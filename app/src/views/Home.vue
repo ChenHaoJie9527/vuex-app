@@ -12,7 +12,8 @@
     <myComponents :name.sync="name" ref="myComponents" title="主题"></myComponents>
     来源： {{chirderName}}
     <div>
-      eventBus: {{msg || "空"}}
+      eventBus: {{message || "空"}}
+      <div>{{message}}</div>
     </div>
   </div>
 </template>
@@ -35,14 +36,21 @@ export default {
       name: "张三",
       chirderName: "",
       person: "父组件",
-      msg: "",
+      msg: this.$store.state.msg,
     };
   },
+  computed: {
+    message(){
+      return this.$store.state.msg;
+    }
+  },
   created() {
-    EventBus.$on("msg", (data) => {
-      console.log(data)
-      this.msg = data;
-    });
+    // eventbus跨组件通信
+    // EventBus.$on("msg", (data) => {
+    //   console.log(data)
+    //   this.msg = data;
+    // });
+    
   },
   mounted() {
     this.chirderName = this.$refs.myComponents.msg;
